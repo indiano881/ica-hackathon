@@ -4,6 +4,7 @@ from couchbase.auth import PasswordAuthenticator  # type: ignore[import-untyped]
 from couchbase.cluster import Cluster  # type: ignore[import-untyped]
 from couchbase.collection import Collection  # type: ignore[import-untyped]
 from couchbase.bucket import Bucket  # type: ignore[import-untyped]
+from couchbase.options import ClusterOptions  # type: ignore[import-untyped]
 
 from .config import settings
 
@@ -16,8 +17,7 @@ def connect_db() -> None:
     global _cluster, _bucket, _collection
 
     auth = PasswordAuthenticator(settings.couchbase_username, settings.couchbase_password)
-    opts = Cluster.ClusterOptions(auth)  # type: ignore[attr-defined]
-    _cluster = Cluster(settings.couchbase_connection_string, opts)
+    _cluster = Cluster(settings.couchbase_connection_string, ClusterOptions(auth))
     _cluster.wait_until_ready(timedelta(seconds=5))
 
     _bucket = _cluster.bucket(settings.couchbase_bucket)
