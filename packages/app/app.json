@@ -35,7 +35,8 @@
         {
           "cameraPermission": "Allow ICA Checkout to scan product barcodes."
         }
-      ]
+      ],
+      "./plugins/with-couchbase-maven"
     ],
     "extra": {
       "eas": {
