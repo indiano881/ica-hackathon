@@ -8,6 +8,13 @@ Hackathon project for ICA supermarkets — an offline-capable self-checkout syst
 - **Backend API**: Python 3.12 + FastAPI + Couchbase Python SDK
 - **Database**: Couchbase Capella + App Services (Sync Gateway)
 
+## Prerequisites
+
+1. **Couchbase Capella** account (free tier) at https://cloud.couchbase.com
+   - Create a cluster with an `ica-checkout` bucket
+   - Enable App Services for mobile sync
+   - Create database credentials (not the same as your Capella login)
+
 ## Getting Started
 
 ```bash
@@ -19,7 +26,7 @@ npm run build:shared
 cd packages/server
 python3.12 -m venv .venv
 .venv/bin/pip install -e ".[dev]"
-cp .env.example .env  # Edit with your Couchbase credentials
+cp .env.example .env  # Edit with your Capella credentials
 
 # Start the server
 .venv/bin/uvicorn app.main:app --reload --port 3000

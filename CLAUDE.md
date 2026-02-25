@@ -71,13 +71,17 @@ These patterns are fundamental to the system design — do not deviate:
 5. **Deduplication**: Client-generated UUIDs as Couchbase document keys prevent duplicate transactions on re-sync.
 6. **Conflict resolution**: Product documents use server-wins. Transaction and points delta documents are append-only (inherently conflict-free).
 
+## Infrastructure
+
+Using **Couchbase Capella** (cloud) for both the database and App Services (managed Sync Gateway). Local Docker was evaluated but dropped due to Sync Gateway compatibility issues with Community Edition. A `docker-compose.yml` and `infra/` directory exist from the local attempt — they can be removed or kept for reference.
+
 ## Environment Variables (packages/server)
 
 Couchbase Capella connection configured via env vars. See `.env.example`:
-- `COUCHBASE_CONNECTION_STRING`
-- `COUCHBASE_USERNAME`
+- `COUCHBASE_CONNECTION_STRING` — Capella connection string (starts with `couchbases://`)
+- `COUCHBASE_USERNAME` — database credentials (not Capella account credentials)
 - `COUCHBASE_PASSWORD`
-- `COUCHBASE_BUCKET`
+- `COUCHBASE_BUCKET` — `ica-checkout`
 - `PORT`
 
 ## TypeScript Conventions (packages/shared, packages/app)

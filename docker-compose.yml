@@ -1,0 +1,42 @@
+services:
+  couchbase:
+    image: couchbase:community
+    container_name: ica-couchbase
+    ports:
+      - "8091:8091"   # Web console
+      - "8092:8092"   # Views
+      - "8093:8093"   # Query (N1QL)
+      - "8094:8094"   # Search
+      - "11210:11210" # Data (KV)
+    volumes:
+      - couchbase-data:/opt/couchbase/var
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8091/pools"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  couchbase-init:
+    image: curlimages/curl:latest
+    container_name: ica-couchbase-init
+    depends_on:
+      couchbase:
+        condition: service_healthy
+    volumes:
+      - ./infra/init-couchbase.sh:/init.sh:ro
+    entrypoint: ["sh", "/init.sh"]
+
+  sync-gateway:
+    image: couchbase/sync-gateway:3.3.3-community
+    container_name: ica-sync-gateway
+    ports:
+      - "4984:4984"   # Public API
+      - "4985:4985"   # Admin API
+    volumes:
+      - ./infra/sync-gateway-config.json:/etc/sync_gateway/sync_gateway.json:ro
+    depends_on:
+      couchbase-init:
+        condition: service_completed_successfully
+
+volumes:
+  couchbase-data:

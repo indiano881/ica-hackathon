@@ -1,0 +1,36 @@
+{
+  "bootstrap": {
+    "server": "couchbase://couchbase",
+    "username": "sync_gateway",
+    "password": "syncpassword",
+    "use_tls_server": false
+  },
+  "logging": {
+    "console": {
+      "enabled": true,
+      "log_level": "info",
+      "log_keys": ["*"]
+    }
+  },
+  "api": {
+    "public_interface": ":4984",
+    "admin_interface": ":4985"
+  },
+  "databases": {
+    "ica-checkout": {
+      "bucket": "ica-checkout",
+      "scopes": {
+        "_default": {
+          "collections": {
+            "_default": {
+              "sync": "function(doc, oldDoc) { if (doc.type === 'product') { channel('store_' + doc.store_id + '_products'); } else if (doc.type === 'user' || doc.type === 'cart' || doc.type === 'transaction' || doc.type === 'points_delta' || doc.type === 'return_request') { channel('user_' + doc.user_id); } }"
+            }
+          }
+        }
+      },
+      "num_index_replicas": 0,
+      "enable_shared_bucket_access": true,
+      "import_docs": true
+    }
+  }
+}
