@@ -7,17 +7,40 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "backgroundColor": "#E3000B"
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#cf2005"
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "se.ica.checkout"
+      "bundleIdentifier": "se.ica.checkout",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "package": "se.ica.checkout"
+      "package": "se.ica.checkout",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#cf2005"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "plugins": [
-      ["expo-camera", { "cameraPermission": "Allow ICA Checkout to scan product barcodes." }]
-    ]
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow ICA Checkout to scan product barcodes."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2047d23d-5262-41a8-9712-f9b0ddc2765e"
+      }
+    }
   }
 }
