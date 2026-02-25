@@ -21,6 +21,7 @@ import { MutableDocument } from "cbl-reactnative";
 import { getDatabase } from "../db/couchbase";
 import { isConnected } from "../utils/connectivity";
 import { SyncStatusBadge } from "../components/SyncStatusBadge";
+import { Colors, Spacing, Radius } from "../theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Return">;
 
@@ -90,7 +91,6 @@ export function ReturnScreen({ route, navigation }: Props) {
         items: returnItems,
         refund: {
           amount: Math.round(refundAmount * 100) / 100,
-          // Offline returns use loyalty credit only
           method: offline ? "loyalty_credit" : "card_refund",
           status: "pending",
         },
@@ -122,7 +122,7 @@ export function ReturnScreen({ route, navigation }: Props) {
   if (!txn) {
     return (
       <View style={styles.container}>
-        <Text>Loading transaction...</Text>
+        <Text style={{ color: Colors.text }}>Loading transaction...</Text>
       </View>
     );
   }
@@ -177,33 +177,33 @@ export function ReturnScreen({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", padding: 16 },
-  title: { fontSize: 20, fontWeight: "bold", marginBottom: 4 },
-  subtitle: { fontSize: 14, color: "#999", marginBottom: 16 },
+  container: { flex: 1, backgroundColor: Colors.surface, padding: Spacing.md },
+  title: { fontSize: 20, fontWeight: "bold", color: Colors.text, marginBottom: Spacing.xs },
+  subtitle: { fontSize: 14, color: Colors.textMuted, marginBottom: Spacing.md },
   item: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    padding: Spacing.md,
     borderWidth: 1,
-    borderColor: "#eee",
-    borderRadius: 8,
-    marginBottom: 8,
+    borderColor: Colors.border,
+    borderRadius: Radius.sm,
+    marginBottom: Spacing.sm,
   },
   itemSelected: {
-    borderColor: "#E3000B",
-    backgroundColor: "#FFF5F5",
+    borderColor: Colors.primary,
+    backgroundColor: Colors.lightRosa,
   },
-  itemName: { fontSize: 16, fontWeight: "500" },
-  itemDetail: { fontSize: 14, color: "#666", marginTop: 2 },
-  selectedCheck: { fontSize: 20, color: "#E3000B", fontWeight: "bold" },
+  itemName: { fontSize: 16, fontWeight: "500", color: Colors.text },
+  itemDetail: { fontSize: 14, color: Colors.textSecondary, marginTop: 2 },
+  selectedCheck: { fontSize: 20, color: Colors.primary, fontWeight: "bold" },
   submitButton: {
-    backgroundColor: "#E3000B",
-    padding: 16,
-    borderRadius: 8,
+    backgroundColor: Colors.primary,
+    padding: Spacing.md,
+    borderRadius: Radius.sm,
     alignItems: "center",
-    marginTop: 16,
+    marginTop: Spacing.md,
   },
-  disabledButton: { backgroundColor: "#ccc" },
+  disabledButton: { backgroundColor: Colors.disabled },
   submitButtonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });

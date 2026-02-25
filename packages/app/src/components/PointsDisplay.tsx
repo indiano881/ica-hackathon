@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import type { LoyaltyTier } from "@ica/shared";
+import { Colors } from "../theme";
 
 interface Props {
   points: number;
@@ -38,10 +39,10 @@ const styles = StyleSheet.create({
   tierText: {
     fontSize: 13,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text,
   },
   points: {
     fontSize: 16,
-    color: "#666",
+    color: Colors.textSecondary,
   },
 });

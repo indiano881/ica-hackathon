@@ -11,6 +11,7 @@ import type { RootStackParamList } from "../App";
 import { DocKey, type Transaction } from "@ica/shared";
 import { getDatabase } from "../db/couchbase";
 import { SyncStatusBadge } from "../components/SyncStatusBadge";
+import { Colors, Spacing, Radius } from "../theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Receipt">;
 
@@ -39,7 +40,7 @@ export function ReceiptScreen({ route, navigation }: Props) {
   if (!txn) {
     return (
       <View style={styles.container}>
-        <Text>Loading receipt...</Text>
+        <Text style={{ color: Colors.text }}>Loading receipt...</Text>
       </View>
     );
   }
@@ -86,13 +87,13 @@ export function ReceiptScreen({ route, navigation }: Props) {
 
       <View style={styles.actions}>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.secondaryButton}
           onPress={() => navigation.navigate("Return", { txnId: txn.txn_id })}
         >
-          <Text style={styles.buttonText}>Return Items</Text>
+          <Text style={styles.secondaryButtonText}>Return Items</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, styles.primaryButton]}
+          style={styles.primaryButton}
           onPress={() => navigation.popToTop()}
         >
           <Text style={styles.primaryButtonText}>Done</Text>
@@ -103,56 +104,59 @@ export function ReceiptScreen({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
-  header: { alignItems: "center", padding: 20 },
-  checkmark: { fontSize: 48, color: "#4CAF50" },
-  title: { fontSize: 24, fontWeight: "bold", marginTop: 8 },
-  txnRef: { fontSize: 12, color: "#999", marginTop: 4 },
+  container: { flex: 1, backgroundColor: Colors.surface },
+  header: { alignItems: "center", padding: Spacing.lg },
+  checkmark: { fontSize: 48, color: Colors.success },
+  title: { fontSize: 24, fontWeight: "bold", color: Colors.text, marginTop: Spacing.sm },
+  txnRef: { fontSize: 12, color: Colors.textMuted, marginTop: Spacing.xs },
   offlineNote: {
     fontSize: 13,
-    color: "#FF9800",
-    marginTop: 8,
+    color: Colors.warning,
+    marginTop: Spacing.sm,
     fontStyle: "italic",
   },
   item: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 20,
+    paddingHorizontal: Spacing.lg,
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: Colors.borderLight,
   },
-  itemInfo: { flexDirection: "row", gap: 8 },
-  itemName: { fontSize: 15 },
-  itemQty: { fontSize: 15, color: "#999" },
-  itemPrice: { fontSize: 15, fontWeight: "600" },
-  totals: { padding: 20, borderTopWidth: 1, borderTopColor: "#eee" },
+  itemInfo: { flexDirection: "row", gap: Spacing.sm },
+  itemName: { fontSize: 15, color: Colors.text },
+  itemQty: { fontSize: 15, color: Colors.textMuted },
+  itemPrice: { fontSize: 15, fontWeight: "600", color: Colors.text },
+  totals: { padding: Spacing.lg, borderTopWidth: 1, borderTopColor: Colors.border },
   totalRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 4,
+    marginBottom: Spacing.xs,
   },
-  totalLabel: { fontSize: 18, fontWeight: "bold" },
-  totalValue: { fontSize: 18, fontWeight: "bold", color: "#E3000B" },
-  pointsLabel: { fontSize: 15, color: "#4CAF50" },
-  pointsValue: { fontSize: 15, color: "#4CAF50", fontWeight: "600" },
+  totalLabel: { fontSize: 18, fontWeight: "bold", color: Colors.text },
+  totalValue: { fontSize: 18, fontWeight: "bold", color: Colors.primary },
+  pointsLabel: { fontSize: 15, color: Colors.success },
+  pointsValue: { fontSize: 15, color: Colors.success, fontWeight: "600" },
   actions: {
     flexDirection: "row",
-    padding: 16,
+    padding: Spacing.md,
     gap: 12,
   },
-  button: {
+  secondaryButton: {
     flex: 1,
     padding: 14,
-    borderRadius: 8,
+    borderRadius: Radius.sm,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: Colors.border,
   },
-  buttonText: { fontSize: 15, color: "#666" },
+  secondaryButtonText: { fontSize: 15, color: Colors.textSecondary },
   primaryButton: {
-    backgroundColor: "#E3000B",
-    borderColor: "#E3000B",
+    flex: 1,
+    padding: 14,
+    borderRadius: Radius.sm,
+    alignItems: "center",
+    backgroundColor: Colors.primary,
   },
   primaryButtonText: { fontSize: 15, color: "#fff", fontWeight: "bold" },
 });

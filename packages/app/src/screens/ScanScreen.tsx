@@ -14,6 +14,7 @@ import { useCart } from "../hooks/useCart";
 import { useProducts } from "../hooks/useProducts";
 import { CartItem } from "../components/CartItem";
 import { SyncStatusBadge } from "../components/SyncStatusBadge";
+import { Colors, Spacing, Radius } from "../theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Scan">;
 
@@ -21,8 +22,12 @@ export function ScanScreen({ route, navigation }: Props) {
   const { userId, storeId } = route.params;
   const [permission, requestPermission] = useCameraPermissions();
   const [scanning, setScanning] = useState(true);
-  const { cart, addItem } = useCart(userId, storeId);
+  const { cart, addItem, initCart } = useCart();
   const { getProduct } = useProducts(storeId);
+
+  useEffect(() => {
+    initCart(userId, storeId);
+  }, [userId, storeId, initCart]);
 
   useEffect(() => {
     if (!permission?.granted) {
@@ -104,7 +109,7 @@ const styles = StyleSheet.create({
   camera: { flex: 1 },
   overlay: {
     position: "absolute",
-    bottom: 20,
+    bottom: Spacing.lg,
     left: 0,
     right: 0,
     alignItems: "center",
@@ -113,33 +118,34 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     backgroundColor: "rgba(0,0,0,0.6)",
-    paddingHorizontal: 20,
+    paddingHorizontal: Spacing.lg,
     paddingVertical: 10,
-    borderRadius: 8,
+    borderRadius: Radius.sm,
   },
   message: {
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
-    padding: 20,
-    marginTop: 40,
+    padding: Spacing.lg,
+    marginTop: Spacing.xxl,
   },
   cartPreview: {
-    backgroundColor: "#fff",
-    padding: 16,
+    backgroundColor: Colors.surface,
+    padding: Spacing.md,
     maxHeight: 250,
   },
   cartTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 8,
+    color: Colors.text,
+    marginBottom: Spacing.sm,
   },
   button: {
-    backgroundColor: "#E3000B",
+    backgroundColor: Colors.primary,
     padding: 14,
-    borderRadius: 8,
+    borderRadius: Radius.sm,
     alignItems: "center",
-    marginTop: 8,
+    marginTop: Spacing.sm,
   },
   buttonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
 });

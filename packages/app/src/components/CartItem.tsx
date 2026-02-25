@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import type { CartItem as CartItemType } from "@ica/shared";
+import { Colors } from "../theme";
 
 interface Props {
   item: CartItemType;
@@ -69,30 +70,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: Colors.borderLight,
   },
   info: { flex: 1 },
-  name: { fontSize: 15, fontWeight: "500" },
-  price: { fontSize: 13, color: "#999" },
+  name: { fontSize: 15, fontWeight: "500", color: Colors.text },
+  price: { fontSize: 13, color: Colors.textMuted },
   qtyControls: { flexDirection: "row", alignItems: "center", gap: 8 },
   qtyButton: {
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: Colors.borderLight,
     justifyContent: "center",
     alignItems: "center",
   },
-  qtyButtonText: { fontSize: 18, fontWeight: "bold" },
-  qty: { fontSize: 16, fontWeight: "bold", minWidth: 24, textAlign: "center" },
-  lineTotal: { fontSize: 15, fontWeight: "600", marginLeft: 12, minWidth: 80, textAlign: "right" },
+  qtyButtonText: { fontSize: 18, fontWeight: "bold", color: Colors.text },
+  qty: { fontSize: 16, fontWeight: "bold", minWidth: 24, textAlign: "center", color: Colors.text },
+  lineTotal: { fontSize: 15, fontWeight: "600", marginLeft: 12, minWidth: 80, textAlign: "right", color: Colors.text },
   removeButton: { marginLeft: 8, padding: 4 },
-  removeText: { fontSize: 22, color: "#E3000B" },
+  removeText: { fontSize: 22, color: Colors.primary },
   compactRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 4,
   },
-  compactName: { flex: 1, fontSize: 14, color: "#333" },
-  compactPrice: { fontSize: 14, color: "#666" },
+  compactName: { flex: 1, fontSize: 14, color: Colors.text },
+  compactPrice: { fontSize: 14, color: Colors.textSecondary },
 });

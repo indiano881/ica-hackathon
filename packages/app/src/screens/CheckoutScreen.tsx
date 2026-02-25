@@ -16,6 +16,7 @@ import {
 import { MutableDocument } from "cbl-reactnative";
 import { getDatabase } from "../db/couchbase";
 import { isConnected } from "../utils/connectivity";
+import { Colors, Spacing, Radius } from "../theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Checkout">;
 
@@ -34,7 +35,6 @@ export function CheckoutScreen({ route, navigation }: Props) {
       const collection = await db.defaultCollection();
       const offline = !(await isConnected());
 
-      // Determine payment method
       const hasPreauth =
         user.payment_preauth &&
         new Date(user.payment_preauth.expires_at) > new Date() &&
@@ -42,7 +42,6 @@ export function CheckoutScreen({ route, navigation }: Props) {
 
       const method = hasPreauth ? "preauth" : "loyalty";
 
-      // Create transaction document
       const txnId = generateId("txn");
       const txn: Transaction = {
         type: "transaction",
@@ -70,13 +69,11 @@ export function CheckoutScreen({ route, navigation }: Props) {
         synced_at: null,
       };
 
-      // Save transaction to Couchbase Lite
       const txnKey = DocKey.transaction(txnId);
       const txnDoc = new MutableDocument(txnKey);
       txnDoc.setData(txn as unknown as Record<string, unknown>);
       await collection.save(txnDoc);
 
-      // Create points delta (append-only)
       const deltaId = generateId("pd");
       const pointsDelta: PointsDelta = {
         type: "points_delta",
@@ -94,7 +91,6 @@ export function CheckoutScreen({ route, navigation }: Props) {
       deltaDoc.setData(pointsDelta as unknown as Record<string, unknown>);
       await collection.save(deltaDoc);
 
-      // Mark cart as checked out
       await setCartStatus("checked_out");
 
       navigation.replace("Receipt", { txnId });
@@ -109,7 +105,7 @@ export function CheckoutScreen({ route, navigation }: Props) {
   if (!cart || !user) {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <Text style={{ color: Colors.text }}>Loading...</Text>
       </View>
     );
   }
@@ -118,7 +114,7 @@ export function CheckoutScreen({ route, navigation }: Props) {
     <View style={styles.container}>
       <SyncStatusBadge />
 
-      <View style={styles.summary}>
+      <View style={styles.summaryCard}>
         <Text style={styles.title}>Order Summary</Text>
         <Text style={styles.itemCount}>{cart.totals.items_count} items</Text>
         <Text style={styles.total}>{cart.totals.total.toFixed(2)} SEK</Text>
@@ -127,7 +123,7 @@ export function CheckoutScreen({ route, navigation }: Props) {
         </Text>
       </View>
 
-      <View style={styles.paymentInfo}>
+      <View style={styles.paymentCard}>
         <Text style={styles.paymentTitle}>Payment Method</Text>
         {user.payment_preauth &&
         new Date(user.payment_preauth.expires_at) > new Date() ? (
@@ -153,26 +149,32 @@ export function CheckoutScreen({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", padding: 20 },
-  summary: { alignItems: "center", marginVertical: 30 },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 8 },
-  itemCount: { fontSize: 16, color: "#666", marginBottom: 4 },
-  total: { fontSize: 36, fontWeight: "bold", color: "#E3000B" },
-  points: { fontSize: 14, color: "#4CAF50", marginTop: 8 },
-  paymentInfo: {
-    backgroundColor: "#f9f9f9",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 30,
+  container: { flex: 1, backgroundColor: Colors.background, padding: Spacing.lg },
+  summaryCard: {
+    alignItems: "center",
+    backgroundColor: Colors.surface,
+    borderRadius: Radius.sm,
+    padding: Spacing.lg,
+    marginVertical: Spacing.md,
   },
-  paymentTitle: { fontSize: 14, color: "#666", marginBottom: 4 },
-  paymentMethod: { fontSize: 16, fontWeight: "600" },
+  title: { fontSize: 24, fontWeight: "bold", color: Colors.text, marginBottom: Spacing.sm },
+  itemCount: { fontSize: 16, color: Colors.textSecondary, marginBottom: Spacing.xs },
+  total: { fontSize: 36, fontWeight: "bold", color: Colors.primary },
+  points: { fontSize: 14, color: Colors.success, marginTop: Spacing.sm },
+  paymentCard: {
+    backgroundColor: Colors.surface,
+    padding: Spacing.md,
+    borderRadius: Radius.sm,
+    marginBottom: Spacing.xl,
+  },
+  paymentTitle: { fontSize: 14, color: Colors.textSecondary, marginBottom: Spacing.xs },
+  paymentMethod: { fontSize: 16, fontWeight: "600", color: Colors.text },
   payButton: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: Colors.success,
     padding: 18,
-    borderRadius: 8,
+    borderRadius: Radius.sm,
     alignItems: "center",
   },
-  disabledButton: { backgroundColor: "#ccc" },
+  disabledButton: { backgroundColor: Colors.disabled },
   payButtonText: { color: "#fff", fontSize: 20, fontWeight: "bold" },
 });

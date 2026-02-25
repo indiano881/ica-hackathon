@@ -11,6 +11,7 @@ import type { RootStackParamList } from "../App";
 import { useCart } from "../hooks/useCart";
 import { CartItem } from "../components/CartItem";
 import { SyncStatusBadge } from "../components/SyncStatusBadge";
+import { Colors, Spacing, Radius } from "../theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Cart">;
 
@@ -81,40 +82,40 @@ export function CartScreen({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1, backgroundColor: Colors.surface },
   emptyText: {
     textAlign: "center",
-    color: "#999",
+    color: Colors.textMuted,
     fontSize: 16,
-    marginTop: 40,
+    marginTop: Spacing.xxl,
   },
   totals: {
-    padding: 16,
+    padding: Spacing.md,
     borderTopWidth: 1,
-    borderTopColor: "#eee",
+    borderTopColor: Colors.border,
   },
   totalRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 4,
+    marginBottom: Spacing.xs,
   },
-  totalLabel: { fontSize: 15, color: "#666" },
-  totalValue: { fontSize: 15, color: "#333" },
+  totalLabel: { fontSize: 15, color: Colors.textSecondary },
+  totalValue: { fontSize: 15, color: Colors.text },
   grandTotal: {
-    marginTop: 8,
-    paddingTop: 8,
+    marginTop: Spacing.sm,
+    paddingTop: Spacing.sm,
     borderTopWidth: 1,
-    borderTopColor: "#ddd",
+    borderTopColor: Colors.border,
   },
-  grandTotalLabel: { fontSize: 18, fontWeight: "bold" },
-  grandTotalValue: { fontSize: 18, fontWeight: "bold", color: "#E3000B" },
+  grandTotalLabel: { fontSize: 18, fontWeight: "bold", color: Colors.text },
+  grandTotalValue: { fontSize: 18, fontWeight: "bold", color: Colors.primary },
   checkoutButton: {
-    backgroundColor: "#E3000B",
-    margin: 16,
-    padding: 16,
-    borderRadius: 8,
+    backgroundColor: Colors.primary,
+    margin: Spacing.md,
+    padding: Spacing.md,
+    borderRadius: Radius.sm,
     alignItems: "center",
   },
-  disabledButton: { backgroundColor: "#ccc" },
+  disabledButton: { backgroundColor: Colors.disabled },
   checkoutButtonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });

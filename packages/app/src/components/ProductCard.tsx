@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import type { Product } from "@ica/shared";
+import { Colors } from "../theme";
 
 interface Props {
   product: Product;
@@ -32,18 +33,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: Colors.borderLight,
   },
   info: { flex: 1 },
-  name: { fontSize: 16, fontWeight: "600" },
-  brand: { fontSize: 13, color: "#999", marginTop: 2 },
-  price: { fontSize: 15, fontWeight: "bold", color: "#E3000B", marginTop: 4 },
-  outOfStock: { fontSize: 12, color: "#FF9800", marginTop: 2 },
+  name: { fontSize: 16, fontWeight: "600", color: Colors.text },
+  brand: { fontSize: 13, color: Colors.textMuted, marginTop: 2 },
+  price: { fontSize: 15, fontWeight: "bold", color: Colors.primary, marginTop: 4 },
+  outOfStock: { fontSize: 12, color: Colors.warning, marginTop: 2 },
   addButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#E3000B",
+    backgroundColor: Colors.primary,
     justifyContent: "center",
     alignItems: "center",
   },
