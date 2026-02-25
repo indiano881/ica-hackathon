@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "ICA Checkout",
+    "slug": "ica-checkout",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#E3000B"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "se.ica.checkout"
+    },
+    "android": {
+      "package": "se.ica.checkout"
+    },
+    "plugins": [
+      ["expo-camera", { "cameraPermission": "Allow ICA Checkout to scan product barcodes." }]
+    ]
+  }
+}

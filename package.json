@@ -1,0 +1,12 @@
+{
+  "name": "ica-couchbase",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/shared",
+    "packages/app"
+  ],
+  "scripts": {
+    "build:shared": "npm run build -w packages/shared"
+  }
+}

@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.env
+*.tsbuildinfo
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Expo
+.expo/
+ios/
+android/
+
+# OS
+.DS_Store
+Thumbs.db
