@@ -106,9 +106,23 @@ Navigation: React Navigation native stack. Flow: Home → Scan → Cart → Chec
 
 Key layers:
 - **Screens** (`src/screens/`) — UI + business logic (checkout payment decision in `CheckoutScreen.tsx`)
-- **Hooks** (`src/hooks/`) — `useAuth`, `useCart`, `useProducts`, `useSync` — all persist to Couchbase Lite immediately on mutation
+- **Contexts** (`src/contexts/`) — `AuthContext` and `CartContext` provide global state; wrapped at `App.tsx` root
+- **Hooks** (`src/hooks/`) — `useAuth`, `useCart` are thin re-exports from contexts. `useProducts`, `useSync` are standalone hooks.
 - **DB layer** (`src/db/`) — `couchbase.ts` (singleton database `"ica-checkout"`) and `sync.ts` (continuous bidirectional replication)
+- **Theme** (`src/theme.ts`) — Central design tokens: `Colors` (primary `#cf2005` ICA red), `Typography` (IcaTextNy font), `Spacing`, `Radius`. All screens use these — do not hardcode colors.
 - **Connectivity** (`src/utils/connectivity.ts`) — `isConnected()` and `onConnectivityChange()` via `@react-native-community/netinfo`
+
+### State Management: React Context (not hooks alone)
+
+Cart and auth state are managed via React Context, not per-screen hooks. This was a deliberate fix — using standalone hooks caused a bug where cart state was `null` after navigating between screens.
+
+- **AuthContext** (`src/contexts/AuthContext.tsx`) — manages `user` state, `login(userId)`, `logout()`
+- **CartContext** (`src/contexts/CartContext.tsx`) — manages `cart` state, `initCart(userId, storeId)` (idempotent), `addItem`, `removeItem`, `updateItemQty`, `clearCart`. Persists to Couchbase Lite on every mutation.
+- Both wrapped at root in `App.tsx`: `<AuthProvider><CartProvider>...</CartProvider></AuthProvider>`
+
+### EAS Build & Couchbase Maven Plugin
+
+The app uses EAS Build (`eas.json`) for native builds. A custom Expo config plugin (`plugins/with-couchbase-maven.js`) injects the Couchbase private Maven repository (`https://mobile.maven.couchbase.com/maven2/dev/`) into Android's `settings.gradle` and `build.gradle` at prebuild time. This is required for the `cbl-reactnative` Android native module to resolve its dependencies.
 
 ## Known Stubs and Hardcoded Values
 
