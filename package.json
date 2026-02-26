@@ -7,6 +7,7 @@
     "packages/app"
   ],
   "scripts": {
-    "build:shared": "npm run build -w packages/shared"
+    "build:shared": "npm run build -w packages/shared",
+    "postinstall": "npm run build:shared"
   }
 }
